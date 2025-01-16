@@ -41,6 +41,7 @@ public class DataManager
     private void CreateDatabase()
     {
         _db.CreateTable<DbDealWatcher>();
+        _db.CreateTable<DbLimitWatcher>();
     }
 
     private string GetDatabasePath(string filename)

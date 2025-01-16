@@ -1,8 +1,12 @@
-﻿namespace StockWatcher.CustomViews;
+﻿using StockWatcher.Core.Watchers;
+
+namespace StockWatcher.CustomViews;
 
 [XamlCompilation(XamlCompilationOptions.Compile)]
 public partial class WatcherCell : ContentView
 {
+    private IWatcher _watcher;
+
     public WatcherCell()
     {
         InitializeComponent();
@@ -12,12 +16,14 @@ public partial class WatcherCell : ContentView
     {
         base.OnBindingContextChanged();
         if (BindingContext == null) return;
-
+        _watcher = (IWatcher)BindingContext;
         InitCell();
     }
 
     private void InitCell()
     {
+        DirectionImg.Source = _watcher.Type == Enums.WatcherType.Up ? "Up.png" : "Down.png";
+        SecIdLabel.Text = _watcher.SecId;
     }
 
     public static readonly BindableProperty SecIdProperty =

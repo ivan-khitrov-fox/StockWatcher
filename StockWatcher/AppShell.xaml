@@ -27,14 +27,19 @@
     <ShellContent ContentTemplate="{DataTemplate pages:Watchers}"
                   Title="Watchers"
                   Style="{StaticResource ShellStyle}"
+                  Icon="watch.png"
                   Route="watchers" />
+
     <ShellContent ContentTemplate="{DataTemplate pages:Advisors}"
                   Title="Advisors"
                   Style="{StaticResource ShellStyle}"
+                  Icon="advisor.png"
                   Route="advisors" />
+
     <ShellContent ContentTemplate="{DataTemplate pages:Configuration}"
                   Title="Configuration"
-                  Style="{StaticResource ShellStyle}" 
+                  Style="{StaticResource ShellStyle}"
+                  Icon="settings.png"
                   Route="Configuration" />
   </FlyoutItem>
 </Shell>

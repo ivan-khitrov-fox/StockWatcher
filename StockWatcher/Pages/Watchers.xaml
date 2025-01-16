@@ -9,4 +9,8 @@
                       ItemsSource="{Binding WatchersList}">
       </CollectionView>
     </VerticalStackLayout>
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem IconImageSource="plus.png" Clicked="AddWatcherClicked" />
+  </ContentPage.ToolbarItems>
 </ContentPage>

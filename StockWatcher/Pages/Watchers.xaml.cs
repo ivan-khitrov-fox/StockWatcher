@@ -7,7 +7,7 @@ namespace StockWatcher.Pages;
 public partial class Watchers : ContentPage
 {
     private DataManager _dataManager;
-    public List<DealWatcher> WatchersList { get; set; }
+    public List<IWatcher> WatchersList { get; set; }
 
     public Watchers()
     {
@@ -25,13 +25,20 @@ public partial class Watchers : ContentPage
     private void Init()
     {
         _dataManager = ((App)App.Current).Motor.DataManager;
-        WatchersList = new List<DealWatcher>();
+        WatchersList = new List<IWatcher>();
         WatchersCollectionView.ItemTemplate = new DataTemplate(() => new WatcherCell());
     }
 
     private void LoadWatchers()
     {
-        var watchers = _dataManager.GetDealWatchers();
+        var dealWatchers = _dataManager.GetDealWatchers();
+        var limitWatchers = _dataManager.GetLimitWatchers();
+        var watchers = dealWatchers.Cast<IWatcher>().Union(limitWatchers).ToList();
         watchers.ForEach(WatchersList.Add);
+    }
+
+    private void AddWatcherClicked(object sender, EventArgs e)
+    {
+
     }
 }

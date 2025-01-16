@@ -5,11 +5,10 @@
           x:Class="StockWatcher.CustomViews.WatcherCell"
           x:Name="this">
   <ContentView.Content>
-      <StackLayout Orientation="Horizontal">
-        <Label Text="{Binding Path=SecId, Source={x:Reference this}}"
-               Margin="8, 0, 0, 0"
-               VerticalOptions="CenterAndExpand" />
+    <StackLayout Orientation="Horizontal">
+      <Image x:Name="DirectionImg" VerticalOptions="Center" Margin="4, 0, 0, 0" />
+      <Label x:Name="SecIdLabel" VerticalOptions="Center" Margin="4, 0, 0, 0" />
 
-      </StackLayout>
+    </StackLayout>
   </ContentView.Content>
 </ContentView>
