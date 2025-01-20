@@ -4,6 +4,7 @@ using StockWatcher.CustomViews;
 
 namespace StockWatcher.Pages;
 
+
 public partial class Watchers : ContentPage
 {
     private DataManager _dataManager;
@@ -39,6 +40,6 @@ public partial class Watchers : ContentPage
 
     private void AddWatcherClicked(object sender, EventArgs e)
     {
-
+        _ = Shell.Current.GoToAsync("//watcher",  new ShellNavigationQueryParameters { { "id", 1 } });
     }
 }

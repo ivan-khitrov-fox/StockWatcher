@@ -7,7 +7,7 @@ public interface IWatcher
 {
     public string Id { get; }
     public string SecId { get; }
-    public WatcherType Type { get; }
+    public WatcherType Direction { get; }
     public bool Disabled { get; set; }
 
     Task<WatcherReaction> Analyze(List<HourHistory> data);

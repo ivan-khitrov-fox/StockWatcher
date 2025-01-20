@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StockWatcher.Pages.WatcherPage"
+             x:Name="this">
+  <VerticalStackLayout>
+      <Picker x:Name="TypePicker"
+              WidthRequest="250"
+              Margin="0, 25, 0, 0"
+              HorizontalOptions="Center"
+              Title="Watcher Type" />
+      <Picker x:Name="DirectionPicker"
+              WidthRequest="250"
+              HorizontalOptions="Center"
+              Margin="0, 15, 0, 0"
+              Title="Watcher Direction" />
+      <Picker x:Name="SecIdPicker"
+              WidthRequest="250"
+              HorizontalOptions="Center"
+              Margin="0, 15, 0, 0"
+              ItemDisplayBinding="{Binding Title}"
+              Title="Stock item" />
+  </VerticalStackLayout>
+
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Save" Clicked="SaveClicked" />
+    <ToolbarItem Text="Cancel" Clicked="CancelClicked" />
+  </ContentPage.ToolbarItems>
+</ContentPage>

@@ -40,6 +40,10 @@
                   Title="Configuration"
                   Style="{StaticResource ShellStyle}"
                   Icon="settings.png"
-                  Route="Configuration" />
+                  Route="configuration" />
   </FlyoutItem>
+
+  <ShellContent ContentTemplate="{DataTemplate pages:WatcherPage}"
+                Style="{StaticResource ShellStyle}"
+                Route="watcher" />
 </Shell>

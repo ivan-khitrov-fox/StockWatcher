@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net;
+using System.Net.Http.Headers;
 using StockWatcher.Converters;
 using StockWatcher.Models;
 
@@ -55,7 +56,11 @@ public class MoexRequests
 
     private HttpClient GetHttpClient()
     {
-        var client = new HttpClient();
+        HttpClientHandler handler = new HttpClientHandler()
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+        };
+        var client = new HttpClient(handler);
         client.Timeout = new TimeSpan(0, 0, 10);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
@@ -67,7 +72,7 @@ public class MoexRequests
 
     private Uri BuildListUrl(int boardNumber)
     {
-        var path = $"iss/engines/stock/markets/shares/boardgroups/{boardNumber}/securities.jsonp?iss.meta=off&iss.json=extended&lang=ru&security_collection=3&sort_column=SHORTNAME&sort_order=asc";
+        var path = $"iss/engines/stock/markets/shares/boardgroups/{boardNumber}/securities.json?iss.meta=off&lang=ru&security_collection=3&sort_column=SHORTNAME&sort_order=asc";
         var uri = new Uri(baseMoexUrl, path, true);
         return uri;
     }

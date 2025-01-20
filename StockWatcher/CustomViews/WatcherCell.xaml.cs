@@ -22,7 +22,7 @@ public partial class WatcherCell : ContentView
 
     private void InitCell()
     {
-        DirectionImg.Source = _watcher.Type == Enums.WatcherType.Up ? "Up.png" : "Down.png";
+        DirectionImg.Source = _watcher.Direction == Enums.WatcherType.Up ? "Up.png" : "Down.png";
         SecIdLabel.Text = _watcher.SecId;
     }
 
