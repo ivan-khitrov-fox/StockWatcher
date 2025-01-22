@@ -1,7 +1,7 @@
+using CommunityToolkit.Maui.Views;
 using StockWatcher.Core.Data;
 using StockWatcher.Core.Watchers;
 using StockWatcher.Enums;
-using StockWatcher.Models;
 
 namespace StockWatcher.Pages;
 
@@ -26,18 +26,6 @@ public partial class WatcherPage : ContentPage
         } 
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        _ = FillStockList();
-    }
-
-    private async Task FillStockList()
-    {
-        var stockItems = await ((App)App.Current).MoexRequests.GetStoclList();
-        SecIdPicker.ItemsSource = stockItems;
-    }
-
     private readonly Dictionary<string, string> _watcherTypes = new Dictionary<string, string>()
     {
         { nameof(LimitWatcher), "Limit watcher" },
@@ -59,5 +47,17 @@ public partial class WatcherPage : ContentPage
     private void CancelClicked(object sender, EventArgs e)
     {
         _ = Shell.Current.GoToAsync("//watchers");
+    }
+
+    private void SecIdButtonClicked(object sender, EventArgs e) => _ = ShowSelector();
+    private async Task ShowSelector()
+    {
+        var size = new Size(300, this.Height * 0.65);
+        var stockItemPopup = new StockSelector(size);
+        var result = await this.ShowPopupAsync(stockItemPopup);
+        if (result != null)
+        {
+            SecIdButton.Text = (string)result;
+        }
     }
 }

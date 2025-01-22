@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
 		<PackageReference Include="MathNet.Numerics" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
@@ -96,6 +97,9 @@
 	  <MauiXaml Update="Pages\Watchers.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+    <MauiXaml Update="Pages\StockSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
 	</ItemGroup>
 
 </Project>

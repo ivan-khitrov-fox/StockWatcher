@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           x:Class="StockWatcher.Pages.StockSelector"
+           CanBeDismissedByTappingOutsideOfPopup="True">
+  <VerticalStackLayout BackgroundColor="White" VerticalOptions="Fill">
+    <Grid RowSpacing="4"
+          Margin="12"
+          ColumnDefinitions="75, *">
+      <Label Text="Stock Level" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
+      <Picker x:Name="LevelPicker" Grid.Row="0" Grid.Column="1" 
+              SelectedItem="All"
+              Margin="0, 15, 0, 0"
+              WidthRequest="150"
+              Title="" 
+              SelectedIndexChanged="LevelPicker_SelectedIndexChanged">
+        <Picker.Items>
+          <x:String>All</x:String>
+          <x:String>1</x:String>
+          <x:String>1, 2</x:String>
+        </Picker.Items>
+      </Picker>
+    </Grid>
+
+    <Grid RowSpacing="4"
+          Margin="12, 0, 12, 30"
+          ColumnDefinitions="75, *">
+      <Label Text="Filter" Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" />
+      <Entry x:Name="FilterEntry"
+             WidthRequest="150"
+             Grid.Row="0" Grid.Column="1"
+             TextChanged="FilterEntry_TextChanged">
+      </Entry>
+    </Grid>
+
+    <ListView x:Name="ItemsList" HeightRequest="260"
+              Margin="12, 0, 12, 20"
+              VerticalOptions="Fill"
+              RowHeight="22"
+              SelectionMode="Single">
+      <ListView.ItemTemplate>
+        <DataTemplate >
+          <ViewCell>
+            <ViewCell.View>
+              <Label Grid.Column="0" Text="{Binding Title}" />
+            </ViewCell.View>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+
+    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="12, 0, 12, 12">
+      <Button Text="Select"
+            HorizontalOptions="End"
+            Clicked="SelectClicked" />
+      <Button Text="Close"
+            Margin="12, 0, 0, 0"
+            HorizontalOptions="End"
+            Clicked="CloseClicked" />
+    </StackLayout>
+  </VerticalStackLayout>
+</mct:Popup>
