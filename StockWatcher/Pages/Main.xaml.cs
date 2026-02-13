@@ -1,15 +1,15 @@
-using StockWatcher.Core;
+using StockWatcher.Infrastructure.Api;
 
 namespace StockWatcher.Pages;
 
 public partial class Main : ContentPage
 {
-    private MoexRequests _moexRequests;
+    private MoexClient _moexRequests;
 
     public Main()
 	{
 		InitializeComponent();
-        _moexRequests = ((App)App.Current).MoexRequests;
+        _moexRequests = ((App)App.Current).Moex;
 	}
 
     protected override void OnAppearing()
@@ -21,7 +21,7 @@ public partial class Main : ContentPage
     private async Task OnAppearingAsync()
 	{
         var secId = "SBER";
-        var hourHistory = await _moexRequests.GetLastHourHistory(secId);
+        var hourHistory = await _moexRequests.GetLastHourHistoryAsync(secId);
 
         foreach (var x in hourHistory)
         {

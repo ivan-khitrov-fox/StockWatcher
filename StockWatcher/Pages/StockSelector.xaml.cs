@@ -17,7 +17,7 @@ public partial class StockSelector : Popup
 
     private async Task FillStockList()
     {
-        _stockItems = await ((App)App.Current).MoexRequests.GetStoclList();
+        _stockItems = await ((App)App.Current).Moex.GetStockListAsync();
         ItemsList.ItemsSource = _stockItems;
         _init = false;
     }

@@ -1,4 +1,4 @@
-﻿using StockWatcher.Core.Watchers;
+﻿using StockWatcher.Domain.Watchers;
 
 namespace StockWatcher.CustomViews;
 

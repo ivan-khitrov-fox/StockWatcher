@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Views;
-using StockWatcher.Core.Data;
-using StockWatcher.Core.Watchers;
+using StockWatcher.Domain.Watchers;
 using StockWatcher.Enums;
+using StockWatcher.Infrastructure.Persistence;
 
 namespace StockWatcher.Pages;
 

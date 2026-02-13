@@ -1,9 +1,8 @@
-using StockWatcher.Core.Data;
-using StockWatcher.Core.Watchers;
+using StockWatcher.Domain.Watchers;
 using StockWatcher.CustomViews;
+using StockWatcher.Infrastructure.Persistence;
 
 namespace StockWatcher.Pages;
-
 
 public partial class Watchers : ContentPage
 {

@@ -14,12 +14,7 @@
             HorizontalOptions="Center"
             Margin="0, 15, 0, 0"
             Title="Watcher Direction" />
-    <Picker x:Name="SecIdPicker"
-            WidthRequest="250"
-            HorizontalOptions="Center"
-            Margin="0, 15, 0, 0"
-            ItemDisplayBinding="{Binding Title}"
-            Title="Stock item" />
+
     <Button x:Name="SecIdButton"
             Clicked="SecIdButtonClicked"
             WidthRequest="250"
