@@ -10,5 +10,5 @@ public interface IWatcher
     public WatcherType Direction { get; }
     public bool Disabled { get; set; }
 
-    Task<WatcherReaction> Analyze(List<HourHistory> data);
+    WatcherReaction Analyze(HourHistory hourHistory);
 }

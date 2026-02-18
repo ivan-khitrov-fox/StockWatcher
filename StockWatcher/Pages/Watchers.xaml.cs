@@ -24,7 +24,7 @@ public partial class Watchers : ContentPage
 
     private void Init()
     {
-        _dataManager = ((App)App.Current).Motor.DataManager;
+        _dataManager = ((App)App.Current).DataManager;
         WatchersList = new List<IWatcher>();
         WatchersCollectionView.ItemTemplate = new DataTemplate(() => new WatcherCell());
     }

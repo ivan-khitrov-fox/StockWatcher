@@ -1,6 +1,5 @@
 ﻿using StockWatcher.Enums;
 using StockWatcher.Models;
-using StockWatcher.Utilities;
 
 namespace StockWatcher.Domain.Watchers;
 
@@ -12,9 +11,14 @@ public class WatcherBase : IWatcher
     public WatcherType Direction { get; set; }
     public bool Disabled { get; set; } = false;
 
-    public async Task<WatcherReaction> Analyze(List<HourHistory> history)
+    public virtual WatcherReaction Analyze(HourHistory hourHistory)
     {
-        var trend = TrendCalculationHelper.CalculateTrendByHoursHistory(history);
+        if (hourHistory == null)
+            return new WatcherReaction { Type = ReactionType.Keep };
+        //var trend = TrendCalculationHelper.CalculateTrendByHoursHistory(history);
+        //return new WatcherReaction { Type = ReactionType.Keep };
         return new WatcherReaction { Type = ReactionType.Keep };
     }
+
+    protected readonly HashSet<string> _triggered = new();
 }
