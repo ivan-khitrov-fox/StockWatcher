@@ -62,7 +62,9 @@ public class StockPollingWorker
 
                 var limitWatchers = _dataManager.GetLimitWatchers();
                 var dealWatchers = _dataManager.GetDealWatchers();
-                var watchers = limitWatchers.Cast<IWatcher>().Union(dealWatchers).ToList();
+                var spikeWatchers = _dataManager.GetVolatilitySpikeWatchers();
+
+                var watchers = limitWatchers.Cast<IWatcher>().Union(dealWatchers).Union(spikeWatchers).ToList();
 
                 foreach (var watcher in watchers)
                 {

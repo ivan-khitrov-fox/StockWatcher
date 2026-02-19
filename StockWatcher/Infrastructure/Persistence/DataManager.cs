@@ -27,6 +27,13 @@ public class DataManager
         _db.Table<DbDealWatcher>().Select(x => x.ToDealWatcher()).ToList();
 
     /// <summary>
+    /// Reads all VolatilitySpikeWatchers
+    /// </summary>
+    public List<VolatilitySpikeWatcher> GetVolatilitySpikeWatchers() =>
+        _db.Table<DbVolatilitySpikeWatcher>()
+           .Select(x => x.ToVolatilitySpikeWatcher()).ToList();
+
+    /// <summary>
     /// Reads all LimitWatchers
     /// </summary>
     /// <returns></returns>
@@ -44,6 +51,9 @@ public class DataManager
     /// </summary>
     public LimitWatcher? GetLimitWatcher(int id) =>
         _db.Table<DbLimitWatcher>().FirstOrDefault(x => x.Id == id)?.ToLimitWatcher();
+
+    public VolatilitySpikeWatcher? GetVolatilitySpikeWatcher(int id) =>
+        _db.Table<DbVolatilitySpikeWatcher>().FirstOrDefault(x => x.Id == id)?.ToVolatilitySpikeWatcher();
 
     /// <summary>
     /// Inserts or updates DealWatcher
@@ -69,10 +79,21 @@ public class DataManager
             _db.Update(db);
     }
 
+    public void SaveVolatilitySpikeWatcher(VolatilitySpikeWatcher watcher)
+    {
+        var db = watcher.ToDbVolatilitySpikeWatcher();
+        if (db.Id == 0)
+            _db.Insert(db);
+        else
+            _db.Update(db);
+    }
+
+
     private void CreateDatabase()
     {
         _db.CreateTable<DbDealWatcher>();
         _db.CreateTable<DbLimitWatcher>();
+        _db.CreateTable<VolatilitySpikeWatcher>();
     }
 
     private string GetDatabasePath(string filename)

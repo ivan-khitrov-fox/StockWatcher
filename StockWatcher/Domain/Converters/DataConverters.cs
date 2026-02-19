@@ -63,4 +63,25 @@ public static class DataConverters
         WarningPct = model.WarningPct,
         AlarmPct = model.AlarmPct,
     };
+
+    public static VolatilitySpikeWatcher ToVolatilitySpikeWatcher(this DbVolatilitySpikeWatcher model) => new VolatilitySpikeWatcher
+    {
+        Id = "V" + model.Id,
+        Name = model.Name,
+        Direction = (WatcherType)model.WatcherType,
+        SecId = model.SecId,
+        PercentThreshold = model.PercentThreshold,
+        WindowHours = model.WindowHours
+    };
+
+    public static DbVolatilitySpikeWatcher ToDbVolatilitySpikeWatcher(this VolatilitySpikeWatcher model) => new DbVolatilitySpikeWatcher
+    {
+        Id = ParseWatcherId(model.Id),
+        Name = model.Name,
+        WatcherType = (int)model.Direction,
+        SecId = model.SecId,
+        PercentThreshold = model.PercentThreshold,
+        WindowHours = model.WindowHours
+    };
+
 }
