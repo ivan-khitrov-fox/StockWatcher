@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Net;
 using StockWatcher.Converters;
 using StockWatcher.Models;
+using StockWatcher.Utilities;
 
 namespace StockWatcher.Infrastructure.Api;
 
@@ -9,8 +10,6 @@ public class MoexClient
 {
     private readonly HttpClient _httpClient;
     private readonly Uri _baseMoexUrl = new Uri("https://iss.moex.com");
-    private readonly int _boardNumber = 57;
-    private readonly int _historyIntervalInMinutes = 10;
     private const int DefaultMaxRetries = 3;
 
     public MoexClient()
@@ -29,16 +28,29 @@ public class MoexClient
 
     public async Task<List<StockItem>> GetStockListAsync(CancellationToken cancellationToken = default)
     {
-        var uri = BuildListUrl(_boardNumber);
+        var uri = BuildListUrl(AppSettings.MoexBoardNumber);
         var responseString = await GetStringWithRetryAsync(uri, cancellationToken);
         return RawStockListConverter.ToStockList(responseString);
     }
 
     public async Task<List<HourHistory>> GetLastHourHistoryAsync(string secId, CancellationToken cancellationToken = default)
     {
-        var uri = BuildHistoryUrl(_boardNumber, secId, _historyIntervalInMinutes);
+        return await GetLastHourHistoryAsync(
+            secId,
+            AppSettings.MoexBoardNumber,
+            AppSettings.MoexHistoryIntervalMinutes,
+            cancellationToken);
+    }
+
+    public async Task<List<HourHistory>> GetLastHourHistoryAsync(
+        string secId,
+        int boardNumber,
+        int historyIntervalMinutes,
+        CancellationToken cancellationToken = default)
+    {
+        var uri = BuildHistoryUrl(boardNumber, secId, historyIntervalMinutes);
         var responseString = await GetStringWithRetryAsync(uri, cancellationToken);
-        return RawCandleDataConverter.ToCandleData(secId, _historyIntervalInMinutes, responseString);
+        return RawCandleDataConverter.ToCandleData(secId, historyIntervalMinutes, responseString);
     }
 
     public async Task<CurrentPrice> GetCurrentAsync(string secId, CancellationToken cancellationToken = default)

@@ -1,5 +1,6 @@
 using StockWatcher.Enums;
 using StockWatcher.Models;
+using StockWatcher.Utilities;
 
 namespace StockWatcher.Domain.Watchers;
 
@@ -31,8 +32,8 @@ public class DealWatcher : WatcherBase
             return new WatcherReaction { Type = ReactionType.Keep };
 
         var currentPrice = hourHistory.EndPrice;
-        var warningPct = WarningPct ?? 1f;
-        var alarmPct = AlarmPct ?? 3f;
+        var warningPct = WarningPct ?? AppSettings.DealWatcherWarningPctDefault;
+        var alarmPct = AlarmPct ?? AppSettings.DealWatcherAlarmPctDefault;
 
         if (Direction == WatcherType.Up)
         {

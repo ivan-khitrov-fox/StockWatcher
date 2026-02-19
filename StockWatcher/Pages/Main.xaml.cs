@@ -1,4 +1,5 @@
 using StockWatcher.Infrastructure.Api;
+using StockWatcher.Utilities;
 
 namespace StockWatcher.Pages;
 
@@ -20,7 +21,7 @@ public partial class Main : ContentPage
 
     private async Task OnAppearingAsync()
 	{
-        var secId = "SBER";
+        var secId = AppSettings.DefaultDemoSecId;
         var hourHistory = await _moexRequests.GetLastHourHistoryAsync(secId);
 
         foreach (var x in hourHistory)

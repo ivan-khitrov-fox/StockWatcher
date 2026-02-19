@@ -3,10 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StockWatcher.Pages.Configuration"
              Title="Configuration">
-    <VerticalStackLayout>
-        <Label 
-            Text="Configuration page!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+            <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+            <Frame IsVisible="{Binding HasErrors}" BorderColor="Tomato" BackgroundColor="#20FF6347" Padding="12">
+                <Label Text="{Binding ErrorText}" TextColor="Tomato" FontSize="12" />
+            </Frame>
+
+            <Label Text="MOEX" FontAttributes="Bold" FontSize="18" />
+
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                <Label Grid.Row="0" Grid.Column="0" Text="Board number" VerticalOptions="Center" />
+                <Entry Grid.Row="0" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding MoexBoardNumber}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="History interval (minutes)" VerticalOptions="Center" />
+                <Entry Grid.Row="1" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding MoexHistoryIntervalMinutes}" />
+            </Grid>
+
+            <Label Text="UI" FontAttributes="Bold" FontSize="18" />
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto" ColumnSpacing="12">
+                <Label Grid.Row="0" Grid.Column="0" Text="Demo SecId (Main page)" VerticalOptions="Center" />
+                <Entry Grid.Row="0" Grid.Column="1" WidthRequest="160"
+                       Placeholder="e.g. SBER"
+                       Text="{Binding DefaultDemoSecId}" />
+            </Grid>
+
+            <Label Text="Background polling" FontAttributes="Bold" FontSize="18" />
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                <Label Grid.Row="0" Grid.Column="0" Text="Polling interval (minutes)" VerticalOptions="Center" />
+                <Entry Grid.Row="0" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding PollingIntervalMinutes}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Idle interval (minutes)" VerticalOptions="Center" />
+                <Entry Grid.Row="1" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding PollingIdleIntervalMinutes}" />
+            </Grid>
+
+            <Label Text="DealWatcher defaults" FontAttributes="Bold" FontSize="18" />
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                <Label Grid.Row="0" Grid.Column="0" Text="Warning threshold (%)" VerticalOptions="Center" />
+                <Entry Grid.Row="0" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding DealWatcherWarningPctDefault}" />
+
+                <Label Grid.Row="1" Grid.Column="0" Text="Alarm threshold (%)" VerticalOptions="Center" />
+                <Entry Grid.Row="1" Grid.Column="1" WidthRequest="110" Keyboard="Numeric"
+                       Text="{Binding DealWatcherAlarmPctDefault}" />
+            </Grid>
+
+            <HorizontalStackLayout Spacing="12">
+                <Button Text="Save" Clicked="SaveClicked" IsEnabled="{Binding CanSave}" />
+                <Button Text="Test MOEX request" Clicked="TestClicked" IsEnabled="{Binding CanTest}" />
+                <Button Text="Reset to defaults" Clicked="ResetClicked" IsEnabled="{Binding CanReset}" />
+            </HorizontalStackLayout>
+
+            <Label Text="Note: Some changes affect new requests immediately. Already running polling loop uses the next delay interval." FontSize="12" Opacity="0.7" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

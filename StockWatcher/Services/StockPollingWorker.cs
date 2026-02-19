@@ -2,6 +2,7 @@ using StockWatcher.Domain.Watchers;
 using StockWatcher.Enums;
 using StockWatcher.Infrastructure.Api;
 using StockWatcher.Infrastructure.Persistence;
+using StockWatcher.Utilities;
 
 namespace StockWatcher.Services;
 
@@ -55,7 +56,7 @@ public class StockPollingWorker
             {
                 if (Disabled || DisabledByTime)
                 {
-                    await Task.Delay(TimeSpan.FromMinutes(1), token);
+                    await Task.Delay(AppSettings.PollingIdleInterval, token);
                     continue;
                 }
 
@@ -100,7 +101,7 @@ public class StockPollingWorker
                 System.Diagnostics.Debug.WriteLine(ex);
             }
 
-            await Task.Delay(TimeSpan.FromMinutes(5), token);
+            await Task.Delay(AppSettings.PollingInterval, token);
         }
     }
 
