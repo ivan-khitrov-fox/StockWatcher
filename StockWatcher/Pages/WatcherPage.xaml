@@ -3,25 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="StockWatcher.Pages.WatcherPage"
              x:Name="this">
-  <VerticalStackLayout>
-    <Picker x:Name="TypePicker"
-            WidthRequest="250"
-            Margin="0, 25, 0, 0"
-            HorizontalOptions="Center"
-            Title="Watcher Type" />
-    <Picker x:Name="DirectionPicker"
-            WidthRequest="250"
-            HorizontalOptions="Center"
-            Margin="0, 15, 0, 0"
-            Title="Watcher Direction" />
+  <ScrollView>
+    <VerticalStackLayout Padding="16" Spacing="12">
+      <Entry x:Name="NameEntry"
+             Placeholder="Watcher name"
+             ReturnType="Done" />
 
-    <Button x:Name="SecIdButton"
-            Clicked="SecIdButtonClicked"
-            WidthRequest="250"
-            HorizontalOptions="Center"
-            Margin="0, 15, 0, 0"
-            Text="Select Stock Item" />
-  </VerticalStackLayout>
+      <Picker x:Name="TypePicker"
+              Title="Watcher Type"
+              SelectedIndexChanged="TypeChanged" />
+
+      <Picker x:Name="DirectionPicker"
+              Title="Watcher Direction" />
+
+      <Button x:Name="SecIdButton"
+              Clicked="SecIdButtonClicked"
+              Text="Select Stock Item" />
+
+      <!-- Deal watcher fields -->
+      <VerticalStackLayout x:Name="DealSection" IsVisible="False" Spacing="10">
+        <Label Text="Deal watcher" FontAttributes="Bold" />
+        <Entry x:Name="DealPriceEntry" Keyboard="Numeric" Placeholder="Deal price" />
+        <Entry x:Name="DealCountEntry" Keyboard="Numeric" Placeholder="Deal count" />
+      </VerticalStackLayout>
+
+      <!-- Limit watcher fields -->
+      <VerticalStackLayout x:Name="LimitSection" IsVisible="False" Spacing="10">
+        <Label Text="Limit watcher" FontAttributes="Bold" />
+
+        <Label Text="Absolute levels (optional)" FontSize="12" Opacity="0.7" />
+        <Entry x:Name="WarningLevelEntry" Keyboard="Numeric" Placeholder="Warning level (price)" />
+        <Entry x:Name="AlarmLevelEntry" Keyboard="Numeric" Placeholder="Alarm level (price)" />
+
+        <Label Text="Percent mode (optional)" FontSize="12" Opacity="0.7" />
+        <Entry x:Name="StartPriceEntry" Keyboard="Numeric" Placeholder="Start price" />
+        <Entry x:Name="WarningPctEntry" Keyboard="Numeric" Placeholder="Warning % (from start)" />
+        <Entry x:Name="AlarmPctEntry" Keyboard="Numeric" Placeholder="Alarm % (from start)" />
+      </VerticalStackLayout>
+    </VerticalStackLayout>
+  </ScrollView>
 
   <ContentPage.ToolbarItems>
     <ToolbarItem Text="Save" Clicked="SaveClicked" />

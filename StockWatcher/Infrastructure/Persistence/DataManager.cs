@@ -1,4 +1,5 @@
-﻿using SQLite;
+using SQLite;
+using Microsoft.Maui.Storage;
 using StockWatcher.Domain;
 using StockWatcher.Domain.Watchers;
 
@@ -33,10 +34,40 @@ public class DataManager
         _db.Table<DbLimitWatcher>().Select(x => x.ToLimitWatcher()).ToList();
 
     /// <summary>
-    /// Adds new DealWatcher
+    /// Gets DealWatcher by numeric id
     /// </summary>
-    /// <param name="watcher"></param>
-    public void AddDealWatcher(DealWatcher watcher) => _db.Insert(watcher.ToDbDealWatcher());
+    public DealWatcher? GetDealWatcher(int id) =>
+        _db.Table<DbDealWatcher>().FirstOrDefault(x => x.Id == id)?.ToDealWatcher();
+
+    /// <summary>
+    /// Gets LimitWatcher by numeric id
+    /// </summary>
+    public LimitWatcher? GetLimitWatcher(int id) =>
+        _db.Table<DbLimitWatcher>().FirstOrDefault(x => x.Id == id)?.ToLimitWatcher();
+
+    /// <summary>
+    /// Inserts or updates DealWatcher
+    /// </summary>
+    public void SaveDealWatcher(DealWatcher watcher)
+    {
+        var db = watcher.ToDbDealWatcher();
+        if (db.Id == 0)
+            _db.Insert(db);
+        else
+            _db.Update(db);
+    }
+
+    /// <summary>
+    /// Inserts or updates LimitWatcher
+    /// </summary>
+    public void SaveLimitWatcher(LimitWatcher watcher)
+    {
+        var db = watcher.ToDbLimitWatcher();
+        if (db.Id == 0)
+            _db.Insert(db);
+        else
+            _db.Update(db);
+    }
 
     private void CreateDatabase()
     {
@@ -46,11 +77,8 @@ public class DataManager
 
     private string GetDatabasePath(string filename)
     {
-#if ANDROID
-        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), filename);
-#elif WINDOWS
-        return Path.GetDirectoryName(filename);
-#endif
-        return null;
+        // Use per-app data directory across all platforms (Windows/Android/iOS/etc).
+        // This avoids null paths and keeps the database in a writable location.
+        return Path.Combine(FileSystem.AppDataDirectory, filename);
     }
 }

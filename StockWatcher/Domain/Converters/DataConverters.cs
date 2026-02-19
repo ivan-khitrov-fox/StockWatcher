@@ -1,4 +1,4 @@
-﻿using StockWatcher.Domain.Watchers;
+using StockWatcher.Domain.Watchers;
 using StockWatcher.Enums;
 using StockWatcher.Infrastructure.Persistence;
 
@@ -6,6 +6,14 @@ namespace StockWatcher.Domain;
 
 public static class DataConverters
 {
+    private static int ParseWatcherId(string? id)
+    {
+        if (string.IsNullOrWhiteSpace(id) || id.Length < 2)
+            return 0;
+
+        return int.TryParse(id.Substring(1), out var n) ? n : 0;
+    }
+
     public static DealWatcher ToDealWatcher(this DbDealWatcher model) => new DealWatcher
     {
         Id = "D" + model.Id,
@@ -19,7 +27,7 @@ public static class DataConverters
 
     public static DbDealWatcher ToDbDealWatcher(this DealWatcher model) => new DbDealWatcher
     {
-        Id = Convert.ToInt32(model.Id.Substring(1)),
+        Id = ParseWatcherId(model.Id),
         Name = model.Name,
         DealTime = model.DealTime,
         WatcherType = (int)model.Direction,
@@ -44,7 +52,7 @@ public static class DataConverters
 
     public static DbLimitWatcher ToDbLimitWatcher(this LimitWatcher model) => new DbLimitWatcher
     {
-        Id = Convert.ToInt32(model.Id.Substring(1)),
+        Id = ParseWatcherId(model.Id),
         Name = model.Name,
         DealTime = model.DealTime,
         WatcherType = (int)model.Direction,

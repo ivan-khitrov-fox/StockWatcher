@@ -6,6 +6,8 @@
              x:Name="this">
     <VerticalStackLayout>
       <CollectionView x:Name="WatchersCollectionView"
+                      SelectionMode="Single"
+                      SelectionChanged="WatcherSelected"
                       ItemsSource="{Binding WatchersList}">
       </CollectionView>
     </VerticalStackLayout>
