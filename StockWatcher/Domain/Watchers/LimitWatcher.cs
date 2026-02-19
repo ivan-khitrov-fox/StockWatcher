@@ -1,8 +1,12 @@
-﻿using StockWatcher.Enums;
+using StockWatcher.Enums;
 using StockWatcher.Models;
 
 namespace StockWatcher.Domain.Watchers;
 
+/// <summary>
+/// Watches absolute (or start-price-relative) price levels for a security.
+/// Use this when you want "alert me when price crosses level X/Y" regardless of any specific deal/entry price.
+/// </summary>
 public class LimitWatcher : WatcherBase
 {
     public DateTime DealTime { get; set; }
@@ -11,24 +15,27 @@ public class LimitWatcher : WatcherBase
     // WarningLevel > AlarmLevel when Type = Down
 
     /// <summary>
-    ///0 Case when level is set in currency (Warning)
+    /// Absolute price level (currency) for Warning.
+    /// If percent mode is configured (<see cref="StartPrice"/> + pct fields), those thresholds take priority.
     /// </summary>
     public double? WarningLevel { get; set; }
     /// <summary>
-    /// Case when level is set in currency (Alarm)
+    /// Absolute price level (currency) for Alarm.
+    /// If percent mode is configured (<see cref="StartPrice"/> + pct fields), those thresholds take priority.
     /// </summary>
     public double? AlarmLevel { get; set; }
 
     /// <summary>
-    ///  Case when level is set as percent from the start price. (start)
+    /// Enables percent mode: thresholds are derived from this start price.
+    /// Typical usage: set <see cref="StartPrice"/> once, then configure <see cref="WarningPct"/>/<see cref="AlarmPct"/>.
     /// </summary>
     public double? StartPrice { get; set; }
     /// <summary>
-    ///  Case when level is set as percent from the start price. (warning)
+    /// Percent threshold from <see cref="StartPrice"/> for Warning.
     /// </summary>
     public float? WarningPct { get; set; }
     /// <summary>
-    ///  Case when level is set as percent from the start price. (alarm)
+    /// Percent threshold from <see cref="StartPrice"/> for Alarm.
     /// </summary>
     public float? AlarmPct { get; set; }
 

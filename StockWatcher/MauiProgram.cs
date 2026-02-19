@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using StockWatcher.Infrastructure.Api;
+using StockWatcher.Infrastructure.Persistence;
 using StockWatcher.Services;
 
 namespace StockWatcher
@@ -18,16 +20,18 @@ namespace StockWatcher
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            // builder.Services.AddTransientPopup<StockSelector, StockSelector>();
-            builder.Services.AddSingleton<StockPollingWorker>();
-
+            builder.Services.AddSingleton<MoexClient>();
+            builder.Services.AddSingleton<DataManager>();
 
 #if ANDROID
-        builder.Services.AddSingleton<INotificationService, Platforms.Android.Services.AndroidNotificationService>();
+            builder.Services.AddSingleton<INotificationService, Platforms.Android.Services.AndroidNotificationService>();
 #elif WINDOWS
-        builder.Services.AddSingleton<INotificationService, Platforms.Windows.Services.WindowsNotificationService>();
+            builder.Services.AddSingleton<INotificationService, Platforms.Windows.Services.WindowsNotificationService>();
+#else
+            builder.Services.AddSingleton<INotificationService, NullNotificationService>();
 #endif
 
+            builder.Services.AddSingleton<StockPollingWorker>();
 
 #if DEBUG
             builder.Logging.AddDebug();

@@ -1,4 +1,4 @@
-﻿using StockWatcher.Infrastructure.Api;
+using StockWatcher.Infrastructure.Api;
 using StockWatcher.Infrastructure.Persistence;
 using StockWatcher.Services;
 
@@ -14,13 +14,17 @@ public partial class App : Application
 
     public StockPollingWorker PollingWorker { get; }
 
-    public App()
+    public App(
+        MoexClient moex,
+        DataManager dataManager,
+        INotificationService notificationService,
+        StockPollingWorker pollingWorker)
     {
         InitializeComponent();
-        Moex = new MoexClient();
-        DataManager = new DataManager();
-        NotificationService = null;
-        PollingWorker = new StockPollingWorker(Moex, DataManager, NotificationService);
+        Moex = moex;
+        DataManager = dataManager;
+        NotificationService = notificationService;
+        PollingWorker = pollingWorker;
         MainPage = new AppShell();
     }
 }

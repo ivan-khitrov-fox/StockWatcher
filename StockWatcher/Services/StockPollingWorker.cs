@@ -1,4 +1,5 @@
-﻿using StockWatcher.Enums;
+using StockWatcher.Domain.Watchers;
+using StockWatcher.Enums;
 using StockWatcher.Infrastructure.Api;
 using StockWatcher.Infrastructure.Persistence;
 
@@ -52,25 +53,45 @@ public class StockPollingWorker
         {
             try
             {
-                if (Disabled) return;
-                if (DisabledByTime) return;
+                if (Disabled || DisabledByTime)
+                {
+                    await Task.Delay(TimeSpan.FromMinutes(1), token);
+                    continue;
+                }
 
-                var watchers = _dataManager.GetLimitWatchers();
+                var limitWatchers = _dataManager.GetLimitWatchers();
+                var dealWatchers = _dataManager.GetDealWatchers();
+                var watchers = limitWatchers.Cast<IWatcher>().Union(dealWatchers).ToList();
 
                 foreach (var watcher in watchers)
                 {
-                    var history = await _moexClient.GetLastHourHistoryAsync(watcher.SecId);
-
-                    if (history == null || history.Count == 0)
-                        continue;
-
-                    var reaction = watcher.Analyze(history.Last());
-
-                    if (reaction.Type != ReactionType.Keep)
+                    try
                     {
-                        await _notificationService.NotifyLimitHitAsync(
-                            reaction.SecId,
-                            reaction.Message);
+                        var history = await _moexClient.GetLastHourHistoryAsync(watcher.SecId, token);
+
+                        if (history == null || history.Count == 0)
+                            continue;
+
+                        var reaction = watcher.Analyze(history.Last());
+
+                        if (reaction.Type != ReactionType.Keep)
+                        {
+                            try
+                            {
+                                await _notificationService.NotifyLimitHitAsync(
+                                    reaction.SecId,
+                                    reaction.Message);
+                            }
+                            catch (Exception notifyEx)
+                            {
+                                System.Diagnostics.Debug.WriteLine(notifyEx);
+                            }
+                        }
+                    }
+                    catch (Exception watcherEx)
+                    {
+                        // Isolate per-security failures: continue polling the rest.
+                        System.Diagnostics.Debug.WriteLine(watcherEx);
                     }
                 }
             }
