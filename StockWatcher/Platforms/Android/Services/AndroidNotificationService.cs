@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using A = Android.App;
+using Android.App;
 using Android.Content;
 using AOS = Android.OS;
 using AndroidX.Core.App;
@@ -14,9 +15,9 @@ namespace StockWatcher.Platforms.Android.Services
 
         private readonly Context _context;
 
-        public AndroidNotificationService(Context context)
+        public AndroidNotificationService()
         {
-            _context = context;
+            _context = A.Application.Context; // <- Use static app context
             CreateNotificationChannel();
         }
 
@@ -37,7 +38,7 @@ namespace StockWatcher.Platforms.Android.Services
             var builder = new NotificationCompat.Builder(_context, ChannelId)
                 .SetContentTitle(title)
                 .SetContentText(message)
-               //////////////// .SetSmallIcon(Resource.Drawable.ic_stat_name) // replace with your icon
+                // .SetSmallIcon(Resource.Drawable.ic_stat_name) // replace with your icon
                 .SetAutoCancel(true);
 
             var notificationManager = NotificationManagerCompat.From(_context);
@@ -48,7 +49,7 @@ namespace StockWatcher.Platforms.Android.Services
         {
             if (AOS.Build.VERSION.SdkInt >= AOS.BuildVersionCodes.O)
             {
-                var channel = new NotificationChannel(ChannelId, ChannelName, NotificationImportance.Default)
+                var channel = new A.NotificationChannel(ChannelId, ChannelName, NotificationImportance.Default)
                 {
                     Description = ChannelDescription
                 };
